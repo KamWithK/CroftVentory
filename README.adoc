@@ -1,0 +1,4 @@
+= CroftVentory
+
+A application to store and collect inventory information on devices being borrowed.
+This uses Java, OpenIJFX, and the H2 database.
