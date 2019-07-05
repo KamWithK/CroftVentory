@@ -13,7 +13,10 @@ import javafx.stage.Stage;
 
 /**
  *
+ * Run at startup
+ * 
  * @author kamron
+ * 
  */
 public class Croftventory extends Application {
     
@@ -23,8 +26,13 @@ public class Croftventory extends Application {
         
         Scene scene = new Scene(root);
         
+        stage.setTitle("Croftventory");
         stage.setScene(scene);
         stage.show();
+        
+        // Provides a logger object
+        DAO logger = new DAO();
+        logger.setup();
     }
 
     /**

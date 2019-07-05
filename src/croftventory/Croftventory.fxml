@@ -36,7 +36,7 @@
     </HBox>
     <HBox GridPane.rowIndex="1" GridPane.columnIndex="2" spacing="10">
         <Label text="Due"/>
-        <TextField fx:id="DueSearch"/>
+        <DatePicker fx:id="DueSearch" showWeekNumbers="true"/>
     </HBox>
     
     <TableView fx:id="TableView" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnSpan="3">
@@ -53,11 +53,11 @@
     </TableView>
     
     <HBox GridPane.rowIndex="3" GridPane.columnIndex="0" spacing="10">
-        <Button text="Extend"/>
-        <Button text="Return"/>
+        <Button text="Extend" onAction="#handleExtendButton"/>
+        <Button text="Return" onAction="#handleReturnButton"/>
     </HBox>
     <HBox GridPane.rowIndex="3" GridPane.columnIndex="2" spacing="10">
-        <Button text="Add Device"/>
-        <Button text="Import Students"/>
+        <Button text="Add Device" onAction="#handleAddDeviceButton"/>
+        <Button text="Import Students" onAction="#handleImportStudentsButton"/>
     </HBox>
 </GridPane>
