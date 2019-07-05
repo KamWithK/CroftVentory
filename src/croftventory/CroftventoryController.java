@@ -5,15 +5,21 @@
  */
 package croftventory;
 
+import croftventory.Types.Device;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -35,6 +41,7 @@ public class CroftventoryController implements Initializable {
     SimpleStringProperty deviceSearchStr = new SimpleStringProperty();
     private SimpleObjectProperty<LocalDate> searchDue = new SimpleObjectProperty<>();
     
+    // Handle button presses
     @FXML
     private void handleExtendButton(ActionEvent event) {
         System.out.println("Extend Loan");
@@ -47,7 +54,15 @@ public class CroftventoryController implements Initializable {
     
     @FXML
     private void handleAddDeviceButton(ActionEvent event) {
-        System.out.println("Add a Device");
+        // Create a seperate dialog with input fields
+        AddDeviceDialog dialog = new AddDeviceDialog();
+        
+        // Optional is used incase the dialog was canceled
+        // Checks whether the Device is present or not
+        // If so add it to the list
+        Optional<Device> result = dialog.showAndWait();
+        if (result.isPresent()) {
+        }
     }
     
     @FXML

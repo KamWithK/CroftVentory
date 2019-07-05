@@ -5,6 +5,7 @@
  */
 package croftventory;
 
+import croftventory.ObjectManager.DAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
