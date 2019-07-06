@@ -5,7 +5,11 @@
  */
 package croftventory;
 
+import croftventory.ObjectManager.Importer;
+import static croftventory.ObjectManager.StorageController.addStudents;
+import croftventory.ObjectManager.StudentImporter;
 import croftventory.Types.Device;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -15,12 +19,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -66,8 +68,17 @@ public class CroftventoryController implements Initializable {
     }
     
     @FXML
-    private void handleImportStudentsButton(ActionEvent event) {
-        System.out.println("Import Students from XML");
+    private void handleImportStudentsButton(ActionEvent event) throws IOException {
+        Alert studentReplaceAlert = new Alert(AlertType.CONFIRMATION);
+        studentReplaceAlert.setTitle("Import New Student Spreadsheet");
+        studentReplaceAlert.setContentText("Are you sure you'd like to import new students, this will overide any already existing ones");
+        Optional<ButtonType> result = studentReplaceAlert.showAndWait();
+        
+        if (result.get() == ButtonType.OK) {
+            Importer csvStudentImporter = new StudentImporter();
+            csvStudentImporter.readLines("students.csv");
+            addStudents(csvStudentImporter.get());
+        }
     }
     
     @Override

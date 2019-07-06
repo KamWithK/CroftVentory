@@ -8,13 +8,19 @@ package croftventory.ObjectManager;
 import croftventory.Types.Student;
 import croftventory.Types.Device;
 import croftventory.Types.Booking;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
+ * 
+ * Manages storage of data in memory
+ * As well as reading directly from the disk
+ * 
  * @author kamron
+ * 
  */
+
 public class StorageController {
     private static ObservableList<Student> studentList = FXCollections.observableArrayList();
     private static ObservableList<Device> deviceList = FXCollections.observableArrayList();
@@ -23,6 +29,10 @@ public class StorageController {
     public static void addStudent(Student student) { studentList.add(student); }
     public static void addDevice(Device device) { deviceList.add(device); }
     public static void addBooking(Booking booking) { bookingList.add(booking); }
+    
+    public static void addStudents(List<Student> students) { studentList.addAll(students); }
+    public static void addDevices(List<Student> devices) { studentList.addAll(devices); }
+    public static void addBookings(List<Student> bookings) { studentList.addAll(bookings); }
     
     // Functions to remove objects from lists
     // Polymorphism is used to allow removal at an index or with the provided student
