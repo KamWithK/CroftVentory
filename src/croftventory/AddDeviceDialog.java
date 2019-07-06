@@ -48,8 +48,8 @@ public class AddDeviceDialog extends Dialog<Device> {
         // Using provided regular expression
         // Note the input value is limited to integers for simplisity
         TextField nameField = new TextField();
-        TextField quantityField = new RegexField("\\d+");
-        TextField valueField = new RegexField("\\d*");
+        TextField quantityField = new RegexField("[^0-9]*");
+        TextField valueField = new RegexField("[^0-9]*");
         
         // Adds all elements to the inputGrid
         inputGrid.add(nameLabel, 0, 0);

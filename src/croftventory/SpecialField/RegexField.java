@@ -9,22 +9,15 @@ import javafx.scene.control.TextField;
 
 /**
  * 
- * A TextField limited to a Regular Expression
+ * A TextField which automatically removes any matching Regular Expression
  * 
  * @author kamron
  * 
  */
 public class RegexField extends TextField{
     public RegexField(String regex) {
-        setOnKeyTyped(event -> {
-            // Event must be removed to stop the normal addition of the new character to the TextField
-            // After the character is stored in a new variable
-            String character = event.getCharacter();
-            event.consume();
-            
-            if (character.matches(regex)) {
-            setText(getText().concat(character));
-        }
+        textProperty().addListener((observable, oldValue, newValue) -> {
+            setText(newValue.replaceAll(regex, ""));
         });
     }
 }
