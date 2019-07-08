@@ -14,6 +14,7 @@ import javafx.beans.property.*;
  * @author kamron
  * 
  */
+
 public class Student {
     // Properties
     // These are used over variables as they can utilize events

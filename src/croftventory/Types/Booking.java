@@ -15,6 +15,7 @@ import java.time.LocalDate;
  * @author kamron
  * 
  */
+
 public class Booking {
     // Properties
     // These are used over variables as they can utilize events

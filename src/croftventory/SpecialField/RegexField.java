@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
  * @author kamron
  * 
  */
+
 public class RegexField extends TextField{
     public RegexField(String regex) {
         textProperty().addListener((observable, oldValue, newValue) -> {

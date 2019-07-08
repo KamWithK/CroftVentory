@@ -19,8 +19,8 @@ import javafx.stage.Stage;
  * @author kamron
  * 
  */
+
 public class Croftventory extends Application {
-    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Croftventory.fxml"));
@@ -42,5 +42,4 @@ public class Croftventory extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

@@ -20,7 +20,9 @@ import java.util.List;
  */
 
 public interface Importer<T> {
-    List<?> list = new ArrayList<>();
+    // Note can't use generic wildtype for list
+    // As otherwise objects CAN'T be added to it
+    List<Object> list = new ArrayList<>();
     
     // A method to read through the file line by line
     public void readLines(String path) throws FileNotFoundException, IOException;

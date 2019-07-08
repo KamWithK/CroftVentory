@@ -5,12 +5,14 @@
  */
 package croftventory;
 
+import croftventory.ObjectManager.DAO;
 import croftventory.ObjectManager.Importer;
-import static croftventory.ObjectManager.StorageController.addStudents;
+import croftventory.ObjectManager.StorageController;
 import croftventory.ObjectManager.StudentImporter;
 import croftventory.Types.Device;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -68,16 +70,21 @@ public class CroftventoryController implements Initializable {
     }
     
     @FXML
-    private void handleImportStudentsButton(ActionEvent event) throws IOException {
+    private void handleImportStudentsButton(ActionEvent event) throws IOException, SQLException {
         Alert studentReplaceAlert = new Alert(AlertType.CONFIRMATION);
         studentReplaceAlert.setTitle("Import New Student Spreadsheet");
         studentReplaceAlert.setContentText("Are you sure you'd like to import new students, this will overide any already existing ones");
         Optional<ButtonType> result = studentReplaceAlert.showAndWait();
         
         if (result.get() == ButtonType.OK) {
+            // Create a new Importer for students
+            // Then read the file with student details
             Importer csvStudentImporter = new StudentImporter();
             csvStudentImporter.readLines("students.csv");
-            addStudents(csvStudentImporter.get());
+            
+            // Add students to the application's internal list and the database
+            StorageController.addStudents(csvStudentImporter.get());
+            DAO.addStudents(csvStudentImporter.get());
         }
     }
     

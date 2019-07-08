@@ -5,7 +5,6 @@
  */
 package croftventory.ObjectManager;
 
-import croftventory.Types.Student;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,7 +24,7 @@ import java.util.List;
 public abstract class CSVImporter<T> implements Importer {
     // The implementation of readLines splits the line up as well
     @Override
-    public final void readLines(String path) throws FileNotFoundException, IOException {
+    public void readLines(String path) throws FileNotFoundException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             // Skip the first line (a header describing the following data)
@@ -35,9 +34,10 @@ public abstract class CSVImporter<T> implements Importer {
             // Meaning the line doesn't exist
             // Note this works as "" != null
             while ((line = br.readLine()) != null) {
+                // Creates objects out of line
+                // Before adding them to the list
                 // Use a comma as the delimiter
-                // Runs the create function on these
-                create(line.split(","));
+                list.add(create(line.split(",")));
             }
         }
     }
