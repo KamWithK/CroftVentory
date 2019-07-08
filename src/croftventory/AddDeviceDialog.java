@@ -8,7 +8,6 @@ package croftventory;
 import croftventory.SpecialField.RegexField;
 import croftventory.Types.Device;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -73,7 +72,7 @@ public class AddDeviceDialog extends Dialog<Device> {
         setResultConverter(button -> {
             if (button == createButton) {
                 // TextField's produce strings, so they must be parsed into numeric datatypes
-                return new Device(nameField.getText(), Integer.parseInt(quantityField.getText()), Integer.parseInt(valueField.getText()));
+                return new Device(nameField.getText(), Integer.parseInt(quantityField.getText()),new BigDecimal(valueField.getText()));
             } else return null;
         });
     }
