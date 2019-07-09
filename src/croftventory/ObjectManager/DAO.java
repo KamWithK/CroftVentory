@@ -122,7 +122,7 @@ public class DAO {
         
         // Add student info to prepared statement
         // Note setObject must be used instead of setDate as the new LocalDate class is used
-        preparedStatement.setInt(1, booking.getIntStudent());
+        preparedStatement.setString(1, booking.getStrStudent());
         preparedStatement.setInt(2, booking.getIntDevice());
         preparedStatement.setInt(3, booking.getIntQuantity());
         preparedStatement.setObject(4, booking.getDateLent());
@@ -181,7 +181,7 @@ public class DAO {
         
         // Iterate through all rows to read all students in the table
         while (resultSet.next()) {
-            Booking booking = new Booking(resultSet.getInt("StudentID"), resultSet.getInt("DeviceID"), resultSet.getInt("Quantity"), resultSet.getObject("LentOn", LocalDate.class), resultSet.getObject("DueOn", LocalDate.class), resultSet.getBoolean("Returned"), resultSet.getInt("ID"));
+            Booking booking = new Booking(resultSet.getString("StudentID"), resultSet.getInt("DeviceID"), resultSet.getInt("Quantity"), resultSet.getObject("LentOn", LocalDate.class), resultSet.getObject("DueOn", LocalDate.class), resultSet.getBoolean("Returned"), resultSet.getInt("ID"));
             bookings.add(booking);
         }
         
