@@ -47,6 +47,11 @@ public class CroftventoryController implements Initializable {
     
     // Handle button presses
     @FXML
+    private void handleNewButton(ActionEvent event) {
+        System.out.println("New Booking");
+    }
+    
+    @FXML
     private void handleExtendButton(ActionEvent event) {
         System.out.println("Extend Loan");
     }

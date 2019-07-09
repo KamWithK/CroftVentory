@@ -10,17 +10,17 @@
 <GridPane id="GridPane" prefHeight="1000" prefWidth="1000" hgap="10" vgap="10" alignment="center" xmlns:fx="http://javafx.com/fxml/1" fx:controller="croftventory.CroftventoryController">
     <columnConstraints>
         <ColumnConstraints minWidth="100" prefWidth="100"
-                           maxWidth="Infinity" hgrow="ALWAYS">
+                           maxWidth="Infinity" hgrow="ALWAYS" halignment="LEFT">
         </ColumnConstraints>
         <ColumnConstraints minWidth="200" prefWidth="200"
-                           maxWidth="Infinity" hgrow="ALWAYS">
+                           maxWidth="Infinity" halignment="CENTER">
         </ColumnConstraints>
         <ColumnConstraints minWidth="200" prefWidth="200"
-                           maxWidth="Infinity" hgrow="ALWAYS" halignment="LEFT" >
+                           maxWidth="Infinity" hgrow="ALWAYS" halignment="RIGHT">
         </ColumnConstraints>
     </columnConstraints>
     
-    <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" text="CroftVentory">
+    <Label GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="RIGHT" text="CroftVentory">
         <font>
             <Font name="Arial" size="30" ></Font>
         </font>
@@ -35,6 +35,7 @@
         <TextField fx:id="DeviceSearch"/>
     </HBox>
     <HBox GridPane.rowIndex="1" GridPane.columnIndex="2" spacing="10">
+        <HBox HBox.hgrow="ALWAYS"/>
         <Label text="Due"/>
         <DatePicker fx:id="DueSearch" showWeekNumbers="true"/>
     </HBox>
@@ -53,10 +54,12 @@
     </TableView>
     
     <HBox GridPane.rowIndex="3" GridPane.columnIndex="0" spacing="10">
+        <Button text="New" onAction="#handleNewButton"/>
         <Button text="Extend" onAction="#handleExtendButton"/>
         <Button text="Return" onAction="#handleReturnButton"/>
     </HBox>
     <HBox GridPane.rowIndex="3" GridPane.columnIndex="2" spacing="10">
+        <HBox HBox.hgrow="ALWAYS"/>
         <Button text="Add Device" onAction="#handleAddDeviceButton"/>
         <Button text="Import Students" onAction="#handleImportStudentsButton"/>
     </HBox>
