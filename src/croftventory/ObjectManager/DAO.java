@@ -5,6 +5,7 @@
  */
 package croftventory.ObjectManager;
 
+import static croftventory.ObjectManager.StorageController.removeDevice;
 import croftventory.Types.Booking;
 import croftventory.Types.Device;
 import croftventory.Types.Student;
@@ -100,7 +101,7 @@ public class DAO {
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
-        String newDevice = "MERGE INTO Device (Name, Quantity, Value) VALUES (?, ?, ?);";
+        String newDevice = "INSERT INTO Device (Name, Quantity, Value) VALUES (?, ?, ?);";
         PreparedStatement preparedStatement = connection.prepareStatement(newDevice, PreparedStatement.RETURN_GENERATED_KEYS);
         
         // Add student info to prepared statement
@@ -109,7 +110,19 @@ public class DAO {
         preparedStatement.setInt(2, device.getIntQuantity());
         preparedStatement.setBigDecimal(3, device.getDeciValue());
         
-        preparedStatement.execute();
+        // If database returns status indicating an addition
+        // Remove device and recreate it with an ID this time
+        // Note this happens instead of providing a setID method
+        // To ensure that at no point is the deviceID falsly set
+        int affectedRows = preparedStatement.executeUpdate();
+        if (affectedRows != 0)  {
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    removeDevice(device);
+                    StorageController.addDevice(new Device(device.getStrName(), device.getIntQuantity(), device.getDeciValue(), generatedKeys.getLong(1)));
+                }
+            }
+        }
     }
     
     public static void addBooking(Booking booking) throws SQLException {
@@ -123,7 +136,7 @@ public class DAO {
         // Add student info to prepared statement
         // Note setObject must be used instead of setDate as the new LocalDate class is used
         preparedStatement.setString(1, booking.getStrStudent());
-        preparedStatement.setInt(2, booking.getIntDevice());
+        preparedStatement.setLong(2, booking.getLngDevice());
         preparedStatement.setInt(3, booking.getIntQuantity());
         preparedStatement.setObject(4, booking.getDateLent());
         preparedStatement.setObject(5, booking.getDateDue());
@@ -162,7 +175,7 @@ public class DAO {
         
         // Iterate through all rows to read all students in the table
         while (resultSet.next()) {
-            Device device = new Device(resultSet.getString("Name"), resultSet.getInt("Quantity"), resultSet.getBigDecimal("Value"));
+            Device device = new Device(resultSet.getString("Name"), resultSet.getInt("Quantity"), resultSet.getBigDecimal("Value"), resultSet.getLong("ID"));
             devices.add(device);
         }
         
@@ -181,7 +194,7 @@ public class DAO {
         
         // Iterate through all rows to read all students in the table
         while (resultSet.next()) {
-            Booking booking = new Booking(resultSet.getString("StudentID"), resultSet.getInt("DeviceID"), resultSet.getInt("Quantity"), resultSet.getObject("LentOn", LocalDate.class), resultSet.getObject("DueOn", LocalDate.class), resultSet.getBoolean("Returned"), resultSet.getInt("ID"));
+            Booking booking = new Booking(resultSet.getString("StudentID"), resultSet.getLong("DeviceID"), resultSet.getInt("Quantity"), resultSet.getObject("LentOn", LocalDate.class), resultSet.getObject("DueOn", LocalDate.class), resultSet.getBoolean("Returned"), resultSet.getLong("ID"));
             bookings.add(booking);
         }
         

@@ -6,6 +6,12 @@
 package croftventory;
 
 import croftventory.ObjectManager.DAO;
+import static croftventory.ObjectManager.DAO.getBookings;
+import static croftventory.ObjectManager.DAO.getDevices;
+import static croftventory.ObjectManager.DAO.getStudents;
+import croftventory.ObjectManager.StorageController;
+import static croftventory.ObjectManager.StorageController.addDevices;
+import static croftventory.ObjectManager.StorageController.addStudents;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,6 +40,10 @@ public class Croftventory extends Application {
         // Provides a logger object
         DAO logger = new DAO();
         logger.setup();
+        
+        StorageController.addStudents(getStudents());
+        StorageController.addDevices(getDevices());
+        StorageController.addBookings(getBookings());
     }
 
     /**

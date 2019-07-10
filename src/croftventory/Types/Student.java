@@ -76,4 +76,10 @@ public class Student {
     public String getSName() {
         return StrName.get().split(" ", 2)[1];
     }
+    
+    // The toString must be overrided to allow it to work easily with UI elements
+    @Override
+    public String toString() {
+        return StrName.get() + " " + StrID.get();
+    }
 }

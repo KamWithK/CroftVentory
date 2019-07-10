@@ -9,6 +9,7 @@ import croftventory.ObjectManager.DAO;
 import croftventory.ObjectManager.Importer;
 import croftventory.ObjectManager.StorageController;
 import croftventory.ObjectManager.StudentImporter;
+import croftventory.Types.Booking;
 import croftventory.Types.Device;
 import java.io.IOException;
 import java.net.URL;
@@ -43,12 +44,23 @@ public class CroftventoryController implements Initializable {
     
     SimpleStringProperty studentSearchStr = new SimpleStringProperty();
     SimpleStringProperty deviceSearchStr = new SimpleStringProperty();
-    private SimpleObjectProperty<LocalDate> searchDue = new SimpleObjectProperty<>();
+    SimpleObjectProperty<LocalDate> searchDue = new SimpleObjectProperty<>();
     
     // Handle button presses
     @FXML
-    private void handleNewButton(ActionEvent event) {
-        System.out.println("New Booking");
+    private void handleNewButton(ActionEvent event) throws SQLException {
+        // Create a seperate dialog with input fields
+        AddBookingDialog dialog = new AddBookingDialog();
+        
+        // Optional is used incase the dialog was canceled
+        // Checks whether the Booking is present or not
+        // If so add it to the list
+        Optional<Booking> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            // Add booking to the application's internal list and the database
+            StorageController.addBooking(result.get());
+            DAO.addBooking(result.get());
+        }
     }
     
     @FXML
@@ -62,7 +74,7 @@ public class CroftventoryController implements Initializable {
     }
     
     @FXML
-    private void handleAddDeviceButton(ActionEvent event) {
+    private void handleAddDeviceButton(ActionEvent event) throws SQLException {
         // Create a seperate dialog with input fields
         AddDeviceDialog dialog = new AddDeviceDialog();
         
@@ -71,6 +83,9 @@ public class CroftventoryController implements Initializable {
         // If so add it to the list
         Optional<Device> result = dialog.showAndWait();
         if (result.isPresent()) {
+            // Add device to the application's internal list and the database
+            StorageController.addDevice(result.get());
+            DAO.addDevice(result.get());
         }
     }
     

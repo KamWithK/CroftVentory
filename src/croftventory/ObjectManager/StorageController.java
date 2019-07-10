@@ -26,13 +26,17 @@ public class StorageController {
     private static ObservableList<Device> deviceList = FXCollections.observableArrayList();
     private static ObservableList<Booking> bookingList = FXCollections.observableArrayList();
     
+    public static ObservableList<Student> getStudentList() { return studentList; }
+    public static ObservableList<Device> getDeviceList() { return deviceList; }
+    public static ObservableList<Booking> getBookingList() { return bookingList; }
+    
     public static void addStudent(Student student) { studentList.add(student); }
     public static void addDevice(Device device) { deviceList.add(device); }
     public static void addBooking(Booking booking) { bookingList.add(booking); }
     
     public static void addStudents(List<Student> students) { studentList.addAll(students); }
-    public static void addDevices(List<Student> devices) { studentList.addAll(devices); }
-    public static void addBookings(List<Student> bookings) { studentList.addAll(bookings); }
+    public static void addDevices(List<Device> devices) { deviceList.addAll(devices); }
+    public static void addBookings(List<Booking> bookings) { bookingList.addAll(bookings); }
     
     // Functions to remove objects from lists
     // Polymorphism is used to allow removal at an index or with the provided student
