@@ -5,6 +5,7 @@
  */
 package croftventory.Types;
 
+import static croftventory.ObjectManager.StorageController.getBookingList;
 import java.math.BigDecimal;
 import javafx.beans.property.*;
 
@@ -60,6 +61,22 @@ public class Device {
    public void setIntQuantity(int value) { IntQuantity.set(value); }
    public void setDeciValue(BigDecimal value) { DeciValue.set(value); }
    // Note, ID is read only, and so there is no setter for the property
+   
+   // Finds how many of this device currently are not borrowed
+   public Integer getRemaining() {
+       // Pre-set the remaining number of devices as the total number available
+       // Use Integer object instead of primitive int to avoid unboxing
+       Integer remaining = IntQuantity.get();
+       
+       for (Booking booking : getBookingList()) {
+           // If the device is not borrowed subtract the number of devices held from the total
+           if (!booking.getBoolReturned()) {
+               remaining -= booking.getIntQuantity();
+           }
+       }
+       
+       return remaining;
+   }
    
    // The toString must be overrided to allow it to work easily with UI elements
     @Override
