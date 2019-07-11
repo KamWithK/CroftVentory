@@ -10,8 +10,6 @@ import static croftventory.ObjectManager.DAO.getBookings;
 import static croftventory.ObjectManager.DAO.getDevices;
 import static croftventory.ObjectManager.DAO.getStudents;
 import croftventory.ObjectManager.StorageController;
-import static croftventory.ObjectManager.StorageController.addDevices;
-import static croftventory.ObjectManager.StorageController.addStudents;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -8,6 +8,7 @@ package croftventory;
 import croftventory.ObjectManager.DAO;
 import croftventory.ObjectManager.Importer;
 import croftventory.ObjectManager.StorageController;
+import static croftventory.ObjectManager.StorageController.getBookingList;
 import croftventory.ObjectManager.StudentImporter;
 import croftventory.Types.Booking;
 import croftventory.Types.Device;
@@ -26,7 +27,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -37,10 +41,17 @@ import javafx.scene.control.TextField;
  */
 
 public class CroftventoryController implements Initializable {
-    
+    // Define variables used in the user interface (main screen)
     @FXML private DatePicker DueSearch;
     @FXML private TextField StudentSearch;
     @FXML private TextField DeviceSearch;
+    
+    @FXML private TableView<Booking> tableView;
+    @FXML private TableColumn<Booking, String> nameColumn;
+    @FXML private TableColumn<Booking, String> studentIDColumn;
+    @FXML private TableColumn<Booking, String> deviceColumn;
+    @FXML private TableColumn<Booking, LocalDate> borrowedColumn;
+    @FXML private TableColumn<Booking, LocalDate> dueColumn;
     
     SimpleStringProperty studentSearchStr = new SimpleStringProperty();
     SimpleStringProperty deviceSearchStr = new SimpleStringProperty();
@@ -110,6 +121,14 @@ public class CroftventoryController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("StrStudentName"));
+        studentIDColumn.setCellValueFactory(new PropertyValueFactory<>("StrStudent"));
+        deviceColumn.setCellValueFactory(new PropertyValueFactory<>("StrDeviceName"));
+        borrowedColumn.setCellValueFactory(new PropertyValueFactory<>("DateLent"));
+        dueColumn.setCellValueFactory(new PropertyValueFactory<>("DateDue"));
+        
+        tableView.setItems(getBookingList());
+        
         // The following events with lambda expressions detect changes in input
         // For the search fields
         DueSearch.valueProperty().addListener((newValue, oldValue, observable) -> {
@@ -122,5 +141,4 @@ public class CroftventoryController implements Initializable {
             System.out.println(newValue.getValue());
         });
     }
-    
 }

@@ -40,16 +40,16 @@
         <DatePicker fx:id="DueSearch" showWeekNumbers="true"/>
     </HBox>
     
-    <TableView fx:id="TableView" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnSpan="3">
+    <TableView fx:id="tableView" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnSpan="3">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="NameColumn" text="Student"/>
-            <TableColumn fx:id="StudentIDColumn" text="StudentID"/>
-            <TableColumn fx:id="DeviceColumn" text="Device"/>
-            <TableColumn fx:id="BorrowedColumn" text="Borrowed On"/>
-            <TableColumn fx:id="DueColumn" text="Due On"/>
+            <TableColumn fx:id="nameColumn" text="Student"/>
+            <TableColumn fx:id="studentIDColumn" text="StudentID"/>
+            <TableColumn fx:id="deviceColumn" text="Device"/>
+            <TableColumn fx:id="borrowedColumn" text="Borrowed On"/>
+            <TableColumn fx:id="dueColumn" text="Due On"/>
         </columns>
     </TableView>
     

@@ -7,6 +7,7 @@ package croftventory.Types;
 
 import static croftventory.ObjectManager.StorageController.getBookingList;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javafx.beans.property.*;
 
 /**
@@ -70,7 +71,7 @@ public class Device {
        
        for (Booking booking : getBookingList()) {
            // If the device is not borrowed subtract the number of devices held from the total
-           if (!booking.getBoolReturned()) {
+           if (Objects.equals(booking.getLngDevice(), LngID.getValue()) && !booking.getBoolReturned()) {
                remaining -= booking.getIntQuantity();
            }
        }

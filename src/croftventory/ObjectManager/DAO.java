@@ -40,9 +40,7 @@ public class DAO {
             connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
             RunScript.execute(connection, new FileReader("autocreate.sql"));
             connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
+        } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

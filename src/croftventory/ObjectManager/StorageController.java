@@ -47,4 +47,28 @@ public class StorageController {
     public static void removeDevice(int index) { deviceList.remove(index); }
     public static void removeBooking(Booking booking) { bookingList.remove(booking); }
     public static void removeBooking(int index) { bookingList.remove(index); }
+    
+    // Methods to find a student, device or booking object using an ID
+    // These loop through all elements in their associated lists
+    // Before they find and return their desired element
+    public static Student getStudent(String ID) {
+        for(Student student : studentList) {
+            // Note null checks aren't required
+            // Since student ID's should previously have been checked
+            // By either this program and/or the database
+            if (student.getStrID().equals(ID)) { return student; }
+        } return null;
+    }
+    
+    public static Device getDevice(long ID) {
+        for(Device device : deviceList) {
+            if (device.getLngID() == ID) { return device; }
+        } return null;
+    }
+    
+    public static Booking getBooking(long ID) {
+        for(Booking booking : bookingList) {
+            if (booking.getLngID() == ID) { return booking; }
+        } return null;
+    }
 }
