@@ -37,7 +37,7 @@ public class DAO {
     
     public void setup() {
         try {
-            connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+            connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
             RunScript.execute(connection, new FileReader("autocreate.sql"));
             connection.close();
         } catch (SQLException | FileNotFoundException ex) {
@@ -46,7 +46,7 @@ public class DAO {
     }
     
     public static void addStudents(List<Student> students) throws SQLException {
-        connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Java/Croftventory", "sa", "");
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -76,7 +76,7 @@ public class DAO {
     }
     
     public static void addStudent(Student student) throws SQLException {
-        connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -95,7 +95,7 @@ public class DAO {
     }
     
     public static void addDevice(Device device) throws SQLException {
-        connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -124,7 +124,7 @@ public class DAO {
     }
     
     public static void addBooking(Booking booking) throws SQLException {
-        connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -144,7 +144,7 @@ public class DAO {
     }
     
     public static List<Student> getStudents() throws SQLException {
-        connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
         // Read all students from the database
         String getStudentData = "SELECT * FROM Student";
         ResultSet resultSet = connection.createStatement().executeQuery(getStudentData);
@@ -163,7 +163,7 @@ public class DAO {
     }
     
     public static List<Device> getDevices() throws SQLException {
-        connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
         // Read all students from the database
         String getStudentData = "SELECT * FROM Device";
         ResultSet resultSet = connection.createStatement().executeQuery(getStudentData);
@@ -182,7 +182,7 @@ public class DAO {
     }
     
     public static List<Booking> getBookings() throws SQLException {
-        connection = getConnection("jdbc:h2:~/NetBeansProjects/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
         // Read all students from the database
         String getStudentData = "SELECT * FROM Booking";
         ResultSet resultSet = connection.createStatement().executeQuery(getStudentData);
