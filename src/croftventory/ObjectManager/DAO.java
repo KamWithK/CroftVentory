@@ -46,7 +46,7 @@ public class DAO {
     }
     
     public static void addStudents(List<Student> students) throws SQLException {
-        connection = getConnection("jdbc:h2:~/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields

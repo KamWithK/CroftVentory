@@ -26,8 +26,6 @@ public class StorageController {
     private static ObservableList<Device> deviceList = FXCollections.observableArrayList();
     private static ObservableList<Booking> bookingList = FXCollections.observableArrayList();
     
-    private static ObservableList<Booking> filteredBookingList = FXCollections.observableArrayList();
-    
     public static ObservableList<Student> getStudentList() { return studentList; }
     public static ObservableList<Device> getDeviceList() { return deviceList; }
     public static ObservableList<Booking> getBookingList() { return bookingList; }

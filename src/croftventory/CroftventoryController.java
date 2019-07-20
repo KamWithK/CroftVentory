@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -56,6 +57,8 @@ public class CroftventoryController implements Initializable {
     SimpleStringProperty studentSearchStr = new SimpleStringProperty();
     SimpleStringProperty deviceSearchStr = new SimpleStringProperty();
     SimpleObjectProperty<LocalDate> searchDue = new SimpleObjectProperty<>();
+    
+    FilteredList<Booking> filteredList = new FilteredList<>(getBookingList(), p -> true);
     
     // Handle button presses
     @FXML
@@ -127,18 +130,47 @@ public class CroftventoryController implements Initializable {
         borrowedColumn.setCellValueFactory(new PropertyValueFactory<>("DateLent"));
         dueColumn.setCellValueFactory(new PropertyValueFactory<>("DateDue"));
         
-        tableView.setItems(getBookingList());
+        tableView.setItems(filteredList);
         
         // The following events with lambda expressions detect changes in input
         // For the search fields
-        DueSearch.valueProperty().addListener((newValue, oldValue, observable) -> {
-            System.out.println(newValue.getValue().toString());
-        });
-        StudentSearch.textProperty().addListener((newValue, oldValue, observable) -> {
-            System.out.println(newValue.getValue());
-        });
-        DeviceSearch.textProperty().addListener((newValue, oldValue, observable) -> {
-            System.out.println(newValue.getValue());
-        });
+        DueSearch.valueProperty().addListener((listener) -> verify());
+        StudentSearch.textProperty().addListener((listener) -> verify());
+        DeviceSearch.textProperty().addListener((listener) -> verify());
+    }
+    
+    // Removes redundancy by providing a single function to set a predicate
+    private void verify() {
+        filteredList.setPredicate(booking -> {
+                if (verifyStudent(booking.getStrStudentName()) && verifyDevice(booking.getStrDeviceName()) && verifyDate(booking.getDateDue())) {
+                    return true;
+                } else return false;
+            });
+    }
+    
+    // Individual functions to safely test whether a field matches a search term
+    // These all themselves check for null values where needed
+    // Avoiding potential (common) pitfalls with the java type system
+    private boolean verifyStudent(String ours) {
+        if (StudentSearch.getText() == null || StudentSearch.getText() == "") {
+            System.out.println("NULL");
+            return true;
+        }
+        return ours.contains(StudentSearch.getText());
+    }
+    
+    private boolean verifyDevice(String ours) {
+        if (DeviceSearch.getText() == null || DeviceSearch.getText() == "") {
+            System.out.println("NULL");
+            return true;
+        }
+        return ours.contains(DeviceSearch.getText());
+    }
+    
+    private boolean verifyDate(LocalDate ours) {
+        if (DueSearch.getValue() == null) {
+            return true;
+        }
+        return DueSearch.getValue().equals(ours);
     }
 }
