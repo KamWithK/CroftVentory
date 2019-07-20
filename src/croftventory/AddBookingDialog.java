@@ -12,8 +12,6 @@ import croftventory.Types.Booking;
 import croftventory.Types.Device;
 import croftventory.Types.Student;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.ButtonBar;

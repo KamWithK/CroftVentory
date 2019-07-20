@@ -6,6 +6,7 @@
 package croftventory;
 
 import croftventory.ObjectManager.DAO;
+import static croftventory.ObjectManager.DAO.modifyData;
 import croftventory.ObjectManager.Importer;
 import croftventory.ObjectManager.StorageController;
 import static croftventory.ObjectManager.StorageController.getBookingList;
@@ -27,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -46,6 +48,7 @@ public class CroftventoryController implements Initializable {
     @FXML private DatePicker DueSearch;
     @FXML private TextField StudentSearch;
     @FXML private TextField DeviceSearch;
+    @FXML private CheckBox CheckBoxSearch;
     
     @FXML private TableView<Booking> tableView;
     @FXML private TableColumn<Booking, String> nameColumn;
@@ -78,13 +81,38 @@ public class CroftventoryController implements Initializable {
     }
     
     @FXML
-    private void handleExtendButton(ActionEvent event) {
-        System.out.println("Extend Loan");
+    private void handleExtendButton(ActionEvent event) throws SQLException {
+        // Create a seperate dialog for getting new date
+        ExtendDialog dialog = new ExtendDialog();
+        
+        // Optional is used incase the dialog was canceled
+        // Checks whether the Booking is present or not
+        // If so modify lists
+        Optional<LocalDate> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            // Modify the Booking in memory and the database
+            // For memory removes and readds the entry
+            // To avoid conversions between id's and index's
+            // Which may aid in scalability, by avoiding searches through all boookings
+            Booking newBooking = tableView.getSelectionModel().getSelectedItem();
+            newBooking.setDateDue(result.get());
+            getBookingList().remove(tableView.getSelectionModel().getSelectedItem());
+            getBookingList().add(newBooking);
+            modifyData("Booking", "DueOn", newBooking.getDateDue(), newBooking.getLngID());
+        }
     }
     
     @FXML
-    private void handleReturnButton(ActionEvent event) {
-        System.out.println("Return the Device");
+    private void handleReturnButton(ActionEvent event) throws SQLException {
+        // Modify the Booking in memory and the database
+        // For memory removes and readds the entry
+        // To avoid conversions between id's and index's
+        // Which may aid in scalability, by avoiding searches through all boookings
+        Booking newBooking = tableView.getSelectionModel().getSelectedItem();
+        newBooking.setBoolReturned(!newBooking.getBoolReturned());
+        getBookingList().remove(tableView.getSelectionModel().getSelectedItem());
+        getBookingList().add(newBooking);
+        modifyData("Booking", "Returned", newBooking.getBoolReturned(), newBooking.getLngID());
     }
     
     @FXML
@@ -130,19 +158,22 @@ public class CroftventoryController implements Initializable {
         borrowedColumn.setCellValueFactory(new PropertyValueFactory<>("DateLent"));
         dueColumn.setCellValueFactory(new PropertyValueFactory<>("DateDue"));
         
+        // Set items after filtering the list for the first time for the first time
+        verify();
         tableView.setItems(filteredList);
         
         // The following events with lambda expressions detect changes in input
         // For the search fields
-        DueSearch.valueProperty().addListener((listener) -> verify());
-        StudentSearch.textProperty().addListener((listener) -> verify());
-        DeviceSearch.textProperty().addListener((listener) -> verify());
+        DueSearch.valueProperty().addListener(cl -> verify());
+        StudentSearch.textProperty().addListener(cl -> verify());
+        DeviceSearch.textProperty().addListener(cl -> verify());
+        CheckBoxSearch.selectedProperty().addListener(cl -> verify());
     }
     
     // Removes redundancy by providing a single function to set a predicate
     private void verify() {
         filteredList.setPredicate(booking -> {
-                if (verifyStudent(booking.getStrStudentName()) && verifyDevice(booking.getStrDeviceName()) && verifyDate(booking.getDateDue())) {
+                if (verifyStudent(booking.getStrStudentName()) && verifyDevice(booking.getStrDeviceName()) && verifyDate(booking.getDateDue()) && verifyReturned(booking.getBoolReturned())) {
                     return true;
                 } else return false;
             });
@@ -172,5 +203,9 @@ public class CroftventoryController implements Initializable {
             return true;
         }
         return DueSearch.getValue().equals(ours);
+    }
+    
+    private boolean verifyReturned(boolean ours) {
+        return (CheckBoxSearch.isSelected() == ours);
     }
 }

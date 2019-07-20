@@ -38,6 +38,8 @@
         <HBox HBox.hgrow="ALWAYS"/>
         <Label text="Due"/>
         <DatePicker fx:id="DueSearch" showWeekNumbers="true"/>
+        <Label text="Returned"/>
+        <CheckBox fx:id="CheckBoxSearch"/>
     </HBox>
     
     <TableView fx:id="tableView" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnSpan="3">

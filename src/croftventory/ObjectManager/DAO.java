@@ -5,6 +5,7 @@
  */
 package croftventory.ObjectManager;
 
+import static croftventory.ObjectManager.StorageController.removeBooking;
 import static croftventory.ObjectManager.StorageController.removeDevice;
 import croftventory.Types.Booking;
 import croftventory.Types.Device;
@@ -140,7 +141,19 @@ public class DAO {
         preparedStatement.setObject(5, booking.getDateDue());
         preparedStatement.setBoolean(6, booking.getBoolReturned());
         
-        preparedStatement.execute();
+        // If database returns status indicating an addition
+        // Remove device and recreate it with an ID this time
+        // Note this happens instead of providing a setID method
+        // To ensure that at no point is the deviceID falsly set
+        int affectedRows = preparedStatement.executeUpdate();
+        if (affectedRows != 0)  {
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    removeBooking(booking);
+                    StorageController.addBooking(new Booking(booking.getStrStudent(), booking.getLngDevice(), booking.getIntQuantity(), booking.getDateLent(), booking.getDateDue(), booking.getBoolReturned(), generatedKeys.getLong(1)));
+                }
+            }
+        }
     }
     
     public static List<Student> getStudents() throws SQLException {
@@ -198,5 +211,20 @@ public class DAO {
         
         // Return all found students in the database
         return bookings;
+    }
+    
+    // Single method allowing modifications to any element in the database
+    public static <T> void modifyData(String tableName, String columnName, T value, long ID) throws SQLException {
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+//        String modifier = "UPDATE ? SET ? = ? WHERE ID = ?;";
+        String modifier = "UPDATE " + tableName + " SET " + columnName + " = ? WHERE ID = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(modifier);
+//        preparedStatement.setString(1, tableName);
+//        preparedStatement.setString(2, columnName);
+//        preparedStatement.setObject(3, value);
+//        preparedStatement.setLong(4, ID);
+        preparedStatement.setObject(1, value);
+        preparedStatement.setLong(2, ID);
+        preparedStatement.executeUpdate();
     }
 }
