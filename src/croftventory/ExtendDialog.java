@@ -13,14 +13,14 @@ import javafx.scene.control.Dialog;
 
 /**
  * 
- * Defines the dialog used for adding a device to the database
+ * Defines the dialog used for extending a loan
  * 
  * @author kamron
  * 
  */
 
 public class ExtendDialog extends Dialog<LocalDate> {
-    //Create ButtonType's for creating a new device and canceling out of the dialog
+    //Create ButtonType's for changing the date or canceling out of the dialog
     private ButtonType createButton = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
     private ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
     

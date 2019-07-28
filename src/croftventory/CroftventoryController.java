@@ -150,6 +150,14 @@ public class CroftventoryController implements Initializable {
         }
     }
     
+    @FXML
+    private void handleDeviceListButton(ActionEvent event) {
+        // Create a seperate dialog with input fields
+        DeviceListDialog devices = new DeviceListDialog();
+        
+        devices.show();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("StrStudentName"));

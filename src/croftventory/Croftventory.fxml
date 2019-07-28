@@ -64,5 +64,6 @@
         <HBox HBox.hgrow="ALWAYS"/>
         <Button text="Add Device" onAction="#handleAddDeviceButton"/>
         <Button text="Import Students" onAction="#handleImportStudentsButton"/>
+        <Button text="Device List" onAction="#handleDeviceListButton"/>
     </HBox>
 </GridPane>
