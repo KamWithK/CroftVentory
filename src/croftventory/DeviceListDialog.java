@@ -42,6 +42,7 @@ public class DeviceListDialog extends Dialog<Device> {
         setTitle("View Devices");
         setHeaderText("Device Information");
         
+        // Set up the table's basic properties
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("StrName"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("IntQuantity"));
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("DeciValue"));
@@ -49,9 +50,11 @@ public class DeviceListDialog extends Dialog<Device> {
         tableView.getColumns().addAll(nameColumn, quantityColumn, valueColumn);
         tableView.setItems(deviceList);
         
+        // Add all elements into the UI
         getDialogPane().getButtonTypes().add(okButton);
         getDialogPane().setContent(tableView);
         
+        // Return the selected Device
         setResultConverter(button -> {
             if (tableView.getSelectionModel().getSelectedItem()!= null) return tableView.getSelectionModel().getSelectedItem();
             else return null;
@@ -64,9 +67,13 @@ public class DeviceListDialog extends Dialog<Device> {
         ObservableList<Device> equalList = FXCollections.observableArrayList();
         ObservableList<Device> greaterList = FXCollections.observableArrayList();
         
+        // Only run when there are elements in the list (to sort)
+        // Otherwise just return null
         if (list.size() > 1) {
+            // Pick a random pivot
             long pivot = ThreadLocalRandom.current().nextLong(deviceLow(list), deviceHigh(list));
             
+            // Loop through all devices in the list
             for (Device device : list) {
                 // Sorts elements into three seperate arrays
                 // Those less than, equal to and greater than the pivot value (in terms of ID)
