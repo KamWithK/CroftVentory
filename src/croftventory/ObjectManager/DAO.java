@@ -35,10 +35,12 @@ import org.h2.tools.RunScript;
 
 public class DAO {
     private static Connection connection;
+    private static final String userName = "CroftVentory";
+    private static final String password = "CroftVentory";
     
     public void setup() {
         try {
-            connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+            connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
             RunScript.execute(connection, new FileReader("autocreate.sql"));
             connection.close();
         } catch (SQLException | FileNotFoundException ex) {
@@ -47,7 +49,7 @@ public class DAO {
     }
     
     public static void addStudents(List<Student> students) throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -77,7 +79,7 @@ public class DAO {
     }
     
     public static void addStudent(Student student) throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -96,7 +98,7 @@ public class DAO {
     }
     
     public static void addDevice(Device device) throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -125,7 +127,7 @@ public class DAO {
     }
     
     public static void addBooking(Booking booking) throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         
         // Setup format for adding student to the database
         // Uses MERGE instead of INSERT to override already existing fields
@@ -157,7 +159,7 @@ public class DAO {
     }
     
     public static List<Student> getStudents() throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         // Read all students from the database
         String getStudentData = "SELECT * FROM Student";
         ResultSet resultSet = connection.createStatement().executeQuery(getStudentData);
@@ -176,7 +178,7 @@ public class DAO {
     }
     
     public static List<Device> getDevices() throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         // Read all students from the database
         String getStudentData = "SELECT * FROM Device";
         ResultSet resultSet = connection.createStatement().executeQuery(getStudentData);
@@ -195,7 +197,7 @@ public class DAO {
     }
     
     public static List<Booking> getBookings() throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         // Read all students from the database
         String getStudentData = "SELECT * FROM Booking";
         ResultSet resultSet = connection.createStatement().executeQuery(getStudentData);
@@ -215,14 +217,9 @@ public class DAO {
     
     // Single method allowing modifications to any element in the database
     public static <T> void modifyData(String tableName, String columnName, T value, long ID) throws SQLException {
-        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", "sa", "");
-//        String modifier = "UPDATE ? SET ? = ? WHERE ID = ?;";
+        connection = getConnection("jdbc:h2:~/Development/Java/Croftventory", userName, password);
         String modifier = "UPDATE " + tableName + " SET " + columnName + " = ? WHERE ID = ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(modifier);
-//        preparedStatement.setString(1, tableName);
-//        preparedStatement.setString(2, columnName);
-//        preparedStatement.setObject(3, value);
-//        preparedStatement.setLong(4, ID);
         preparedStatement.setObject(1, value);
         preparedStatement.setLong(2, ID);
         preparedStatement.executeUpdate();
