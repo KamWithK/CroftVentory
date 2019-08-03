@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory.ObjectManager;
+package ObjectManager;
 
-import croftventory.Types.Student;
+import Types.Student;
 
 /**
  * 

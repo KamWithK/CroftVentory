@@ -3,18 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory;
+package Dialogs;
 
-import croftventory.SpecialField.RegexField;
-import croftventory.Types.Device;
-import java.math.BigDecimal;
+import SpecialField.RegexField;
+import Types.Device;
 import javafx.beans.binding.BooleanBinding;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+
+import java.math.BigDecimal;
 
 /**
  * 
@@ -37,7 +34,7 @@ public class AddDeviceDialog extends Dialog<Device> {
         // Creates the grid pane to place everything onto
         GridPane inputGrid = new GridPane();
         
-        // Creates indicator labels to show users what to enter into each textfield
+        // Creates indicator labels to show users what to enter into each TextField
         Label nameLabel = new Label("Name:");
         Label quantityLabel = new Label("Quantity:");
         Label valueLabel = new Label("Value (price): $");
@@ -45,7 +42,7 @@ public class AddDeviceDialog extends Dialog<Device> {
         // Creates RegexFields for user input
         // RegexFields themselves validate text
         // Using provided regular expression
-        // Note the input value is limited to integers for simplisity
+        // Note the input value is limited to integers for simplicity
         TextField nameField = new TextField();
         TextField quantityField = new RegexField("[^0-9]*");
         TextField valueField = new RegexField("[^0-9]*");
@@ -71,7 +68,7 @@ public class AddDeviceDialog extends Dialog<Device> {
         
         setResultConverter(button -> {
             if (button == createButton) {
-                // TextField's produce strings, so they must be parsed into numeric datatypes
+                // TextField's produce strings, so they must be parsed into numeric data types
                 return new Device(nameField.getText(), Integer.parseInt(quantityField.getText()),new BigDecimal(valueField.getText()));
             } else return null;
         });

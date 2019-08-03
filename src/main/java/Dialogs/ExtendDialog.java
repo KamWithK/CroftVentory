@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory;
+package Dialogs;
 
 import java.time.LocalDate;
 import javafx.scene.control.ButtonBar;

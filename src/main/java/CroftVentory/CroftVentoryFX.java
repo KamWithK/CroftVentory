@@ -3,35 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory;
+package CroftVentory;
 
-import croftventory.ObjectManager.DAO;
-import static croftventory.ObjectManager.DAO.getBookings;
-import static croftventory.ObjectManager.DAO.getDevices;
-import static croftventory.ObjectManager.DAO.getStudents;
-import croftventory.ObjectManager.StorageController;
+import ObjectManager.DAO;
+import ObjectManager.StorageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URL;
+
+import static ObjectManager.DAO.*;
+
 /**
  *
- * Run at startup
+ * Starts the JavaFX Application
  * 
  * @author kamron
  * 
  */
 
-public class Croftventory extends Application {
+public class CroftVentoryFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Croftventory.fxml"));
+        URL url = new File("src/main/java/CroftVentory/CroftVentory.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
         
         Scene scene = new Scene(root);
         
-        stage.setTitle("Croftventory");
+        stage.setTitle("CroftVentory");
         stage.setScene(scene);
         stage.show();
         
@@ -47,7 +50,5 @@ public class Croftventory extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) { launch(args); }
 }

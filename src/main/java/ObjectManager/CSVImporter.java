@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory.ObjectManager;
+package ObjectManager;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +23,7 @@ import java.util.List;
 public abstract class CSVImporter<T> implements Importer {
     // The implementation of readLines splits the line up as well
     @Override
-    public void readLines(String path) throws FileNotFoundException, IOException {
+    public void readLines(String path) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             // Skip the first line (a header describing the following data)

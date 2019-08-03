@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory.Types;
+package Types;
 
 import javafx.beans.property.*;
 
@@ -25,9 +25,9 @@ public class Student {
     private SimpleIntegerProperty DemeritPoints = new SimpleIntegerProperty();
     private SimpleStringProperty ID = new SimpleStringProperty();
     
-    // Initialisers
-    // Uses polymorphisem to handle storing and retrieving data from database
-    // To avoid having to enter demerit points when non-existant
+    // Initializer
+    // Uses polymorphism to handle storing and retrieving data from database
+    // To avoid having to enter demerit points when non-existent
     public Student(String name, String _class, String email, String ID) {
         this.Name.set(name);
         this.Class.set(_class);
@@ -54,30 +54,29 @@ public class Student {
     
     //Getters for variables
     //Useful for validation and other purposes
-    public String getStrName() { return Name.get(); }
+    public String getName() { return Name.get(); }
     public String getStrClass() { return Class.get(); }
-    public String getStrEmail() { return Email.get(); }
-    public Integer getIntDemeritPoints() { return DemeritPoints.get(); }
-    public String getStrID() { return ID.get(); }
+    public String getEmail() { return Email.get(); }
+    public Integer getDemeritPoints() { return DemeritPoints.get(); }
+    public String getID() { return ID.get(); }
     
     // Setters
-    public void setStrName(String value) { Name.set(value); }
+    public void setName(String value) { Name.set(value); }
     public void setStrClass(String value) { Class.set(value); }
-    public void setStrEmail(String value) { Email.set(value); }
-    public void setIntDemeritPoints(int value) { DemeritPoints.set(value); }
+    public void setEmail(String value) { Email.set(value); }
+    public void setDemeritPoints(int value) { DemeritPoints.set(value); }
     // Note, ID is read only, and so there is no setter for the property
     
     // Functions split full name into first and second name
-    // By seperating the path before and after a space
+    // By separating the path before and after a space
     public String getFName() {
         return Name.get().split(" ", 2)[0];
     }
-    
     public String getSName() {
         return Name.get().split(" ", 2)[1];
     }
-    
-    // The toString must be overrided to allow it to work easily with UI elements
+
+    // Must override the toString method to allow it to work easily with UI elements
     @Override
     public String toString() {
         return Name.get() + " " + ID.get();

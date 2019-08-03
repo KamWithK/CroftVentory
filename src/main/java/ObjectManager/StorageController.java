@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory.ObjectManager;
+package ObjectManager;
 
-import croftventory.Types.Student;
-import croftventory.Types.Device;
-import croftventory.Types.Booking;
-import java.util.List;
+import Types.Booking;
+import Types.Device;
+import Types.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.util.List;
 
 /**
  * 
@@ -43,10 +44,10 @@ public class StorageController {
     // TODO check whether index is needed in code later on
     public static void removeStudent(Student student) { studentList.remove(student); }
     public static void removeStudent(int index) { studentList.remove(index); }
-    public static void removeDevice(Device device) { deviceList.remove(device); }
+    static void removeDevice(Device device) { deviceList.remove(device); }
     public static void removeDevice(int index) { deviceList.remove(index); }
-    public static void removeBooking(Booking booking) { bookingList.remove(booking); }
-    public static void removeBooking(int index) { bookingList.remove(index); }
+    static void removeBooking(Booking booking) { bookingList.remove(booking); }
+    static void removeBooking(int index) { bookingList.remove(index); }
     
     // Methods to find a student, device or booking object using an ID
     // These loop through all elements in their associated lists
@@ -56,7 +57,7 @@ public class StorageController {
             // Note null checks aren't required
             // Since student ID's should previously have been checked
             // By either this program and/or the database
-            if (student.getStrID().equals(ID)) { return student; }
+            if (student.getID().equals(ID)) { return student; }
         } return null;
     }
     
@@ -68,7 +69,7 @@ public class StorageController {
     
     public static Booking getBooking(long ID) {
         for(Booking booking : bookingList) {
-            if (booking.getLngID() == ID) { return booking; }
+            if (booking.getID() == ID) { return booking; }
         } return null;
     }
 }

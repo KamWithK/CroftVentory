@@ -3,25 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory;
+package Dialogs;
 
-import static croftventory.ObjectManager.StorageController.getDeviceList;
-import static croftventory.ObjectManager.StorageController.getStudentList;
-import croftventory.SpecialField.RegexField;
-import croftventory.Types.Booking;
-import croftventory.Types.Device;
-import croftventory.Types.Student;
-import java.time.LocalDate;
+import SpecialField.RegexField;
+import Types.Booking;
+import Types.Device;
+import Types.Student;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+
+import java.time.LocalDate;
+
+import static ObjectManager.StorageController.getDeviceList;
+import static ObjectManager.StorageController.getStudentList;
 
 /**
  * 
@@ -40,7 +36,7 @@ public class AddBookingDialog extends Dialog<Booking> {
     // Creates RegexField for user quantity input
     // RegexFields themselves validate text
     // Using provided regular expression
-    // Combobox and DatePicker's are used to allow limitations of what can be inputed
+    // Combobox and DatePicker's are used to allow limitations of what can be inputted
     private ComboBox<Student> studentCombo = new ComboBox(getStudentList());
     private ComboBox<Device> deviceCombo = new ComboBox(getDeviceList());
     private TextField quantityField = new RegexField("[^0-9]*");
@@ -74,7 +70,7 @@ public class AddBookingDialog extends Dialog<Booking> {
         // Creates the grid pane to place everything onto
         GridPane inputGrid = new GridPane();
         
-        // Creates indicator labels to show users what to enter into each textfield
+        // Creates indicator labels to show users what to enter into each TextField
         Label studentLabel = new Label("Student:");
         Label deviceLabel = new Label("Device:");
         Label quantityLabel = new Label("Quantity:");
@@ -97,11 +93,11 @@ public class AddBookingDialog extends Dialog<Booking> {
         setBindings();
         
         setResultConverter(button -> {
-            // TextField's produce strings, so they must be parsed into numeric datatypes
+            // TextField's produce strings, so they must be parsed into numeric data types
             // Storing value into variable avoids having to parse the integer twice
-            // Note, normal srting to integer parsing method may be used as input has already been verified
+            // Note, normal string to integer parsing method may be used as input has already been verified
             if (button == createButton) {
-                return new Booking(studentCombo.getValue().getStrID(), deviceCombo.getValue().getLngID(), Integer.parseInt(quantityField.getText()), LocalDate.now(), duePicker.getValue(), false);
+                return new Booking(studentCombo.getValue().getID(), deviceCombo.getValue().getLngID(), Integer.parseInt(quantityField.getText()), LocalDate.now(), duePicker.getValue(), false);
             } else return null;
         });
     }

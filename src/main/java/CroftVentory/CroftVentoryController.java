@@ -3,37 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory;
+package CroftVentory;
 
-import croftventory.ObjectManager.DAO;
-import static croftventory.ObjectManager.DAO.modifyData;
-import croftventory.ObjectManager.Importer;
-import croftventory.ObjectManager.StorageController;
-import static croftventory.ObjectManager.StorageController.getBookingList;
-import croftventory.ObjectManager.StudentImporter;
-import croftventory.Types.Booking;
-import croftventory.Types.Device;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import Dialogs.AddBookingDialog;
+import Dialogs.AddDeviceDialog;
+import Dialogs.DeviceListDialog;
+import Dialogs.ExtendDialog;
+import ObjectManager.DAO;
+import ObjectManager.Importer;
+import ObjectManager.StorageController;
+import ObjectManager.StudentImporter;
+import Types.Booking;
+import Types.Device;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
+import static ObjectManager.DAO.modifyData;
+import static ObjectManager.StorageController.getBookingList;
 
 /**
  *
@@ -43,7 +43,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * 
  */
 
-public class CroftventoryController implements Initializable {
+public class CroftVentoryController implements Initializable {
     // Define variables used in the user interface (main screen)
     @FXML private DatePicker DueSearch;
     @FXML private TextField StudentSearch;
@@ -61,15 +61,15 @@ public class CroftventoryController implements Initializable {
     SimpleStringProperty deviceSearchStr = new SimpleStringProperty();
     SimpleObjectProperty<LocalDate> searchDue = new SimpleObjectProperty<>();
     
-    FilteredList<Booking> filteredList = new FilteredList<>(getBookingList(), p -> true);
+    private FilteredList<Booking> filteredList = new FilteredList<>(getBookingList(), p -> true);
     
     // Handle button presses
     @FXML
     private void handleNewButton(ActionEvent event) throws SQLException {
-        // Create a seperate dialog with input fields
+        // Create a separate dialog with input fields
         AddBookingDialog dialog = new AddBookingDialog();
         
-        // Optional is used incase the dialog was canceled
+        // Optional is used in-case the dialog was canceled
         // Checks whether the Booking is present or not
         // If so add it to the list
         Optional<Booking> result = dialog.showAndWait();
@@ -82,45 +82,39 @@ public class CroftventoryController implements Initializable {
     
     @FXML
     private void handleExtendButton(ActionEvent event) throws SQLException {
-        // Create a seperate dialog for getting new date
+        // Create a separate dialog for getting new date
         ExtendDialog dialog = new ExtendDialog();
         
-        // Optional is used incase the dialog was canceled
+        // Optional is used in-case the dialog was canceled
         // Checks whether the Booking is present or not
         // If so modify lists
         Optional<LocalDate> result = dialog.showAndWait();
         if (result.isPresent()) {
             // Modify the Booking in memory and the database
-            // For memory removes and readds the entry
-            // To avoid conversions between id's and index's
-            // Which may aid in scalability, by avoiding searches through all boookings
-            Booking newBooking = tableView.getSelectionModel().getSelectedItem();
-            newBooking.setDateDue(result.get());
-            getBookingList().remove(tableView.getSelectionModel().getSelectedItem());
-            getBookingList().add(newBooking);
-            modifyData("Booking", "DueOn", newBooking.getDateDue(), newBooking.getLngID());
+            // Then refresh the TableView and filter its content
+            tableView.getSelectionModel().getSelectedItem().setDateDue(result.get());
+            modifyData("Booking", "DueOn", tableView.getSelectionModel().getSelectedItem().getDateDue(), tableView.getSelectionModel().getSelectedItem().getID());
+            tableView.refresh();
+            verify();
         }
     }
     
     @FXML
     private void handleReturnButton(ActionEvent event) throws SQLException {
         // Modify the Booking in memory and the database
-        // For memory removes and readds the entry
-        // To avoid conversions between id's and index's
-        // Which may aid in scalability, by avoiding searches through all boookings
-        Booking newBooking = tableView.getSelectionModel().getSelectedItem();
-        newBooking.setBoolReturned(!newBooking.getBoolReturned());
-        getBookingList().remove(tableView.getSelectionModel().getSelectedItem());
-        getBookingList().add(newBooking);
-        modifyData("Booking", "Returned", newBooking.getBoolReturned(), newBooking.getLngID());
+        // Then refresh the TableView and filter its content
+        tableView.getSelectionModel().getSelectedItem().setReturned(!tableView.getSelectionModel().getSelectedItem().getReturned());
+        modifyData("Booking", "Returned", tableView.getSelectionModel().getSelectedItem().getReturned(), tableView.getSelectionModel().getSelectedItem().getID());
+        tableView.refresh();
+        verify();
     }
     
     @FXML
     private void handleAddDeviceButton(ActionEvent event) throws SQLException {
-        // Create a seperate dialog with input fields
+        // Create a separate dialog with input fields
         AddDeviceDialog dialog = new AddDeviceDialog();
         
-        // Optional is used incase the dialog was canceled
+        // Optional is used in-case the dialog was canceled
         // Checks whether the Device is present or not
         // If so add it to the list
         Optional<Device> result = dialog.showAndWait();
@@ -152,7 +146,7 @@ public class CroftventoryController implements Initializable {
     
     @FXML
     private void handleDeviceListButton(ActionEvent event) {
-        // Create a seperate dialog with input fields
+        // Create a separate dialog with input fields
         DeviceListDialog devices = new DeviceListDialog();
         
         devices.show();
@@ -160,9 +154,9 @@ public class CroftventoryController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("StrStudentName"));
-        studentIDColumn.setCellValueFactory(new PropertyValueFactory<>("StrStudent"));
-        deviceColumn.setCellValueFactory(new PropertyValueFactory<>("StrDeviceName"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
+        studentIDColumn.setCellValueFactory(new PropertyValueFactory<>("Student"));
+        deviceColumn.setCellValueFactory(new PropertyValueFactory<>("DeviceName"));
         borrowedColumn.setCellValueFactory(new PropertyValueFactory<>("DateLent"));
         dueColumn.setCellValueFactory(new PropertyValueFactory<>("DateDue"));
         
@@ -181,9 +175,7 @@ public class CroftventoryController implements Initializable {
     // Removes redundancy by providing a single function to set a predicate
     private void verify() {
         filteredList.setPredicate(booking -> {
-                if (verifyStudent(booking.getStrStudentName()) && verifyDevice(booking.getStrDeviceName()) && verifyDate(booking.getDateDue()) && verifyReturned(booking.getBoolReturned())) {
-                    return true;
-                } else return false;
+            return verifyStudent(booking.getStudentName()) && verifyDevice(booking.getDeviceName()) && verifyDate(booking.getDateDue()) && verifyReturned(booking.getReturned());
             });
     }
     

@@ -3,20 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory;
+package Dialogs;
 
-import static croftventory.ObjectManager.StorageController.getDeviceList;
-import croftventory.Types.Device;
-import java.math.BigDecimal;
-import java.util.concurrent.ThreadLocalRandom;
+import Types.Device;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.math.BigDecimal;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static ObjectManager.StorageController.getDeviceList;
 
 /**
  * 
@@ -43,9 +41,9 @@ public class DeviceListDialog extends Dialog<Device> {
         setHeaderText("Device Information");
         
         // Set up the table's basic properties
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("StrName"));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("IntQuantity"));
-        valueColumn.setCellValueFactory(new PropertyValueFactory<>("DeciValue"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("Quantity"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("Value"));
         
         tableView.getColumns().addAll(nameColumn, quantityColumn, valueColumn);
         tableView.setItems(deviceList);
@@ -75,7 +73,7 @@ public class DeviceListDialog extends Dialog<Device> {
             
             // Loop through all devices in the list
             for (Device device : list) {
-                // Sorts elements into three seperate arrays
+                // Sorts elements into three separate arrays
                 // Those less than, equal to and greater than the pivot value (in terms of ID)
                 if (list.indexOf(device) < pivot) lessList.add(device);
                 if (list.indexOf(device) == pivot) equalList.add(device);
@@ -83,8 +81,8 @@ public class DeviceListDialog extends Dialog<Device> {
             }
             
             // Joins together the three lists (in one larger one)
-            // Run quicksort on each of these seperatly
-            // Through which seperate lists will eventually form which are all in order
+            // Run quicksort on each of these separately
+            // Through which separate lists will eventually form which are all in order
             ObservableList<Device> completeList = FXCollections.observableArrayList();
             completeList.addAll(quickSort(lessList));
             completeList.addAll(quickSort(equalList));

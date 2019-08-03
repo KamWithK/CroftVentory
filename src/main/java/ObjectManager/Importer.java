@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package croftventory.ObjectManager;
+package ObjectManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +19,12 @@ import java.util.List;
  */
 
 public interface Importer<T> {
-    // Note can't use generic wildtype for list
+    // Note can't use generic wild-type for list
     // As otherwise objects CAN'T be added to it
     List<Object> list = new ArrayList<>();
     
     // A method to read through the file line by line
-    public void readLines(String path) throws FileNotFoundException, IOException;
-    public <T> T create(String[] line);
-    public <T> List<T> get();
+    void readLines(String path) throws IOException;
+    <T> T create(String[] line);
+    <T> List<T> get();
 }
