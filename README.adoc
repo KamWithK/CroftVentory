@@ -1,4 +1,12 @@
 = CroftVentory
 
 A application to store and collect inventory information on devices being borrowed.
-This uses Java, OpenIJFX, and the H2 database.
+This uses Java, Gradle, OpenIJFX, and the H2 database.
+
+To compile with IntelliJ IDEA, clone this repo and then open it.
+On first time running with the IDE, ignore messages asking to locate JavaFX/OpenIJFX, or any other classes (these should disappear after the first run).
+The needed external libraries should automatically be collected.
+If this doesn't work try running the command: "./grandlew run" in the terminal.
+
+Feel free to create an issue describing any problems/requests.
+For issues, ensure to include a list of steps to reproduce the issue and any helpful/relevant logs/output!
