@@ -82,31 +82,37 @@ public class CroftVentoryController implements Initializable {
     
     @FXML
     private void handleExtendButton(ActionEvent event) throws SQLException {
-        // Create a separate dialog for getting new date
-        ExtendDialog dialog = new ExtendDialog();
-        
-        // Optional is used in-case the dialog was canceled
-        // Checks whether the Booking is present or not
-        // If so modify lists
-        Optional<LocalDate> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            // Modify the Booking in memory and the database
-            // Then refresh the TableView and filter its content
-            tableView.getSelectionModel().getSelectedItem().setDateDue(result.get());
-            modifyData("Booking", "DueOn", tableView.getSelectionModel().getSelectedItem().getDateDue(), tableView.getSelectionModel().getSelectedItem().getID());
-            tableView.refresh();
-            verify();
+        // Only run if an item is selected
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            // Create a separate dialog for getting new date
+            ExtendDialog dialog = new ExtendDialog();
+
+            // Optional is used in-case the dialog was canceled
+            // Checks whether the Booking is present or not
+            // If so modify lists
+            Optional<LocalDate> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                // Modify the Booking in memory and the database
+                // Then refresh the TableView and filter its content
+                tableView.getSelectionModel().getSelectedItem().setDateDue(result.get());
+                modifyData("Booking", "DueOn", tableView.getSelectionModel().getSelectedItem().getDateDue(), tableView.getSelectionModel().getSelectedItem().getID());
+                tableView.refresh();
+                verify();
+            }
         }
     }
     
     @FXML
     private void handleReturnButton(ActionEvent event) throws SQLException {
-        // Modify the Booking in memory and the database
-        // Then refresh the TableView and filter its content
-        tableView.getSelectionModel().getSelectedItem().setReturned(!tableView.getSelectionModel().getSelectedItem().getReturned());
-        modifyData("Booking", "Returned", tableView.getSelectionModel().getSelectedItem().getReturned(), tableView.getSelectionModel().getSelectedItem().getID());
-        tableView.refresh();
-        verify();
+        // Only run if an item is selected
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            // Modify the Booking in memory and the database
+            // Then refresh the TableView and filter its content
+            tableView.getSelectionModel().getSelectedItem().setReturned(!tableView.getSelectionModel().getSelectedItem().getReturned());
+            modifyData("Booking", "Returned", tableView.getSelectionModel().getSelectedItem().getReturned(), tableView.getSelectionModel().getSelectedItem().getID());
+            tableView.refresh();
+            verify();
+        }
     }
     
     @FXML
