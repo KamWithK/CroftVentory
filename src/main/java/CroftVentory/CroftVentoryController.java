@@ -193,7 +193,7 @@ public class CroftVentoryController implements Initializable {
             System.out.println("NULL");
             return true;
         }
-        return ours.contains(StudentSearch.getText());
+        return ours.toLowerCase().contains(StudentSearch.getText().toLowerCase());
     }
     
     private boolean verifyDevice(String ours) {
@@ -201,7 +201,7 @@ public class CroftVentoryController implements Initializable {
             System.out.println("NULL");
             return true;
         }
-        return ours.contains(DeviceSearch.getText());
+        return ours.toLowerCase().contains(DeviceSearch.getText().toLowerCase());
     }
     
     private boolean verifyDate(LocalDate ours) {
